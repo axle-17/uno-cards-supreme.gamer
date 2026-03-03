@@ -1,0 +1,47 @@
+{
+  "version": "1.0",
+  "goal": "Build a responsive UNO card game with up to 10 players, dynamic player positioning, full game rules (draw, skip, reverse, wild cards), touch/desktop controls, and AI opponents",
+  "status": "completed",
+  "createdAt": "2025-01-22T14:30:00.000Z",
+  "tasks": [
+    {
+      "index": 0,
+      "name": "Setup responsive game canvas with dynamic player layout",
+      "description": "Create a responsive game container that displays the UNO table, centered player count selector (1-10 players), and dynamically positions player panels in a circular/oval arrangement around the central discard pile. Use CSS Grid/Flexbox for responsive scaling across all devices.",
+      "status": "completed",
+      "acceptanceCriteria": [
+        "Game container fills viewport and scales on desktop, tablet, and mobile",
+        "Player count selector (1-10) is visible and centered at top of UI",
+        "Player panels reposition dynamically around the table when player count changes",
+        "Central discard pile area and draw deck are visible in the center"
+      ],
+      "codeHints": "const containerRef = useRef<HTMLDivElement>(null); const [playerCount, setPlayerCount] = useState(4); const getPlayerPosition = (index: number, total: number) => { const angle = (index / total) * 2 * Math.PI - Math.PI/2; return { x: 50 + 40 * Math.cos(angle), y: 50 + 35 * Math.sin(angle) }; }; // Use CSS: width: clamp(60px, 8vw, 100px) for responsive cards"
+    },
+    {
+      "index": 1,
+      "name": "Implement core UNO game logic and card interactions",
+      "description": "Build complete UNO mechanics: card deck generation (4 colors, numbers 0-9, skip, reverse, draw-2, wild, wild-draw-4), turn system with direction tracking, card validation (match color/number), special card effects, UNO call detection, and AI opponents with basic/medium difficulty. Handle draw pile reshuffling.",
+      "status": "completed",
+      "acceptanceCriteria": [
+        "Tapping/clicking a valid card plays it to discard pile with visual feedback",
+        "Skip, Reverse, Draw-2, Wild, and Wild-Draw-4 cards trigger correct effects",
+        "Invalid card selections show error feedback and are rejected",
+        "AI opponents take turns automatically with visible card plays",
+        "Game detects when a player has one card and when someone wins"
+      ],
+      "codeHints": "const gameState = useRef({ deck: [], discard: [], hands: [], currentPlayer: 0, direction: 1, currentColor: null }); const isValidPlay = (card, topCard, currentColor) => card.type === 'wild' || card.color === currentColor || card.value === topCard.value; const handleSpecialCard = (card) => { if(card.value === 'skip') nextTurn(2); if(card.value === 'reverse') gameState.current.direction *= -1; };"
+    },
+    {
+      "index": 2,
+      "name": "Review mobile-first implementation, restart flow, and generate image assets",
+      "description": "Audit full game loop for mobile touch responsiveness (tap to select/play cards, drag support), verify restart functionality resets all state properly, ensure smooth animations on all devices, validate scorekeeping accuracy, and prompt user to generate custom UNO card image assets.",
+      "status": "completed",
+      "acceptanceCriteria": [
+        "Touch interactions work smoothly on mobile (tap to select, tap to play)",
+        "Restart/New Game button resets all players, hands, deck, and scores correctly",
+        "Turn progression, score tracking, and win detection function without errors across full games"
+      ],
+      "codeHints": "const handleRestart = () => { gameState.current = { deck: shuffleDeck(createDeck()), hands: dealHands(playerCount), currentPlayer: 0, direction: 1, scores: Array(playerCount).fill(0) }; setGamePhase('playing'); }; // Touch: onTouchStart, onTouchEnd with e.preventDefault(); // Prompt user: 'Generate UNO card assets with consistent style for all 108 cards'"
+    }
+  ]
+}
